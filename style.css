@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: "DotGothic16", sans-serif;
+}
+
+.interaction {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 600px;
+  margin: 16px auto;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn {
+  border: 2px solid black;
+  background-color: #c4c4c4;
+  text-decoration: none;
+  color: black;
+  padding: 8px 12px;
+  font-size: 16px;
+  margin-right: 12px;
+}
+
+.score {
+  color: black;
+}
+
+.playground {
+  width: 500px;
+  height: 600px;
+  margin: 0 auto;
+  border: 1px solid black;
+  /* overflow: hidden; */
+  position: relative;
+}
+
+.bird {
+  position: absolute;
+  display: block;
+  width: 34px;
+  height: 24px;
+  background-image: url("bird.gif");
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.pipe {
+  width: 65px;
+  height: 300px;
+  background-image: url("pipe.png");
+  position: absolute;
+  /* animation: block 3s infinite linear; */
+}
+
+.pipe-upside-down {
+  width: 65px;
+  height: 300px;
+  background-image: url("pipe.png");
+  position: absolute;
+  transform: rotate(180deg);
+}
+
+.hole {
+  width: 50px;
+  height: 150px;
+  background-color: red;
+  position: relative;
+  left: 500px;
+  top: -500px;
+  animation: block 3s infinite linear;
+}
+
+@keyframes block {
+  0% {
+    left: 600px;
+  }
+  100% {
+    left: -50px;
+  }
+}
