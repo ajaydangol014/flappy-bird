@@ -6,12 +6,13 @@ class Playground {
     this.score = 0;
     this.gap = 400;
     this.pipes = [];
+    this.timeSpanToGeneratePipe = 0;
   }
 
   init = () => {
     this.bird = this.createBird();
-    this.createPipe();
     this.start();
+    this.dropBird();
   };
 
   createBird = () => {
@@ -43,8 +44,26 @@ class Playground {
 
   start = () => {
     this.interval = setInterval(() => {
-      this.movePipe();
+      if (!(this.timeSpanToGeneratePipe % 160)) {
+        this.createPipe();
+        this.timeSpanToGeneratePipe = 1;
+      }
+
+      this.add();
+      this.timeSpanToGeneratePipe++;
     }, 20);
+  };
+
+  add = () => {
+    this.movePipe();
+    this.bird.jump();
+  };
+
+  dropBird = () => {
+    let fall = setInterval(() => {
+      this.bird.jump();
+      this.bird.draw();
+    }, 10);
   };
 }
 

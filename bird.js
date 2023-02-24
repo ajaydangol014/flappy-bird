@@ -5,9 +5,10 @@ class Bird {
     this.height = 24;
     this.x = x / 2 - this.width / 2;
     this.y = y / 2;
-    this.gravity = 2;
+    this.gravity = 1;
     this.mainElement = mainElement;
-    this.jump = this.jump.bind(this);
+    this.playground = 600;
+    this.pushUp = 40;
   }
 
   init = () => {
@@ -18,13 +19,18 @@ class Bird {
     this.element = bird;
     this.mainElement.appendChild(this.element);
     //add jump event listenter on space key press
-    document.addEventListener("keydown", this.jump);
+    document.addEventListener("keydown", this.btnHandle.bind(this));
   };
 
-  jump = (e) => {
+  jump = () => {
+    if (this.y + this.width < this.playground) {
+      this.y += this.gravity;
+    }
+  };
+
+  btnHandle = (e) => {
     if (e.code === "Space") {
-      this.y = -this.gravity;
-      this.style.bottom = this.y + "px";
+      this.y = this.y - this.pushUp;
     }
   };
 
