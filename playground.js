@@ -59,8 +59,13 @@ class Playground {
       this.dropBird();
       this.add();
       if (this.gameOver) {
-        //if game over then clear interval of pipe generation.
-        clearInterval(this.interval);
+        //bird fall when game is over
+        this.dropInterval = setInterval(() => {
+          this.bird.element.style.transform = "rotate(180deg)";
+          this.dropBird();
+          //if game over then clear interval of pipe generation.
+          clearInterval(this.interval);
+        });
       }
       this.timeSpanToGeneratePipe++;
     }, 20);
@@ -131,6 +136,8 @@ class Playground {
       pipe.element.remove();
     });
     this.pipes = [];
+    this.bird.reset();
+    clearInterval(this.dropInterval);
     this.start();
   };
 

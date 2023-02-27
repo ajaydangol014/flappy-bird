@@ -9,6 +9,8 @@ class Bird {
     this.mainElement = mainElement;
     this.playground = 600;
     this.pushUp = 40;
+    this.resetWidth = x;
+    this.resetHeight = y;
   }
 
   init = () => {
@@ -25,7 +27,6 @@ class Bird {
   jump = () => {
     if (this.y + this.height < this.playground) {
       this.y += this.gravity;
-      // this.element.style.top = this.y + "px";
     }
   };
 
@@ -38,5 +39,10 @@ class Bird {
   draw = () => {
     this.element.style.left = this.x + "px";
     this.element.style.top = this.y + "px";
+  };
+  reset = () => {
+    this.x = this.resetWidth / 2;
+    this.y = this.resetHeight / 2;
+    this.element.style.transform = "none";
   };
 }
