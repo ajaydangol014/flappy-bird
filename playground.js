@@ -104,6 +104,8 @@ class Playground {
     let text = document.createElement("div");
     let highscore = document.createElement("div");
     let currentScore = document.createElement("div");
+    let resetBtn = document.querySelector(".reset");
+    let newGameBtn = document.querySelector(".new-game");
     parentScreen.classList.add("game-over");
     text.classList.add("game-over__text");
     currentScore.classList.add("game-over__score");
@@ -114,8 +116,26 @@ class Playground {
     parentScreen.appendChild(text);
     parentScreen.appendChild(currentScore);
     parentScreen.appendChild(highscore);
+    resetBtn.onclick = this.resetGame.bind(this); // reset game
+    newGameBtn.onclick = this.newGame.bind(this); // reset game
     this.gameOverScreen = parentScreen;
     this.mainDiv.appendChild(parentScreen);
+  };
+
+  resetGame = () => {
+    this.score = 0;
+    this.highscore = 0;
+    this.gameOver = false;
+    this.mainDiv.removeChild(this.gameOverScreen);
+    this.pipes.forEach((pipe) => {
+      pipe.element.remove();
+    });
+    this.pipes = [];
+    this.start();
+  };
+
+  newGame = () => {
+    this.resetGame();
   };
 }
 
