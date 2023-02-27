@@ -1,9 +1,11 @@
 class Pipe {
-  constructor(mainElement, x, y) {
+  constructor(mainElement, x, y, height) {
     this.element = null;
     this.mainElement = mainElement;
     this.x = x;
     this.y = y;
+    this.width = 65;
+    this.height = height;
     // this.timerID;
   }
 
@@ -17,8 +19,10 @@ class Pipe {
     let pipe = document.createElement("div");
     pipe.classList.add("pipe");
     this.mainElement.appendChild(pipe);
+    pipe.style.width = this.width + "px";
+    pipe.style.height = this.height + "px";
     pipe.style.left = this.x + "px";
-    pipe.style.bottom = this.y + "px";
+    pipe.style.top = this.y + "px";
     pipe.style.background = 'url("./pipe.png") no-repeat';
     return pipe;
   };

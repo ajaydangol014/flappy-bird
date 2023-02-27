@@ -4,15 +4,16 @@ class Playground {
     this.width = width;
     this.height = height;
     this.score = 0;
-    this.gap = 400;
+    this.gap = 150;
     this.pipes = [];
     this.timeSpanToGeneratePipe = 0;
+    this.interval;
+    this.fall;
   }
 
   init = () => {
     this.bird = this.createBird();
     this.start();
-    this.dropBird();
   };
 
   createBird = () => {
@@ -23,17 +24,22 @@ class Playground {
   };
 
   createPipe = () => {
-    let pipeTopHeight = -(Math.random() * 80);
-    let pipes = new Pipe(this.mainDiv, this.width, pipeTopHeight);
+    let topHeight = Math.random() * 200 + 100;
+    let pipes = new Pipe(this.mainDiv, this.width, 0, topHeight);
     pipes.init();
+    pipes.element.style.transform = "rotate(180deg)";
     this.pipes.push(pipes);
 
-    let top = 600;
-    let topHt = pipeTopHeight + this.gap;
-    let topPipe = new Pipe(this.mainDiv, top, topHt);
-    topPipe.init();
-    topPipe.element.style.transform = "rotate(180deg)";
-    this.pipes.push(topPipe);
+    let bottomPosition = topHeight + this.gap;
+    let bottomHeight = this.height - this.gap;
+    let bottomPipe = new Pipe(
+      this.mainDiv,
+      this.width,
+      bottomPosition,
+      bottomHeight
+    );
+    bottomPipe.init();
+    this.pipes.push(bottomPipe);
   };
 
   movePipe = () => {
@@ -48,7 +54,7 @@ class Playground {
         this.createPipe();
         this.timeSpanToGeneratePipe = 1;
       }
-
+      this.dropBird();
       this.add();
       this.timeSpanToGeneratePipe++;
     }, 20);
@@ -56,14 +62,41 @@ class Playground {
 
   add = () => {
     this.movePipe();
-    this.bird.jump();
+    let checkCollision = this.checkCollision(this.pipes, this.bird);
+    if (checkCollision) {
+      clearInterval(this.interval);
+      // clearInterval(this.fall);
+    }
   };
 
   dropBird = () => {
-    let fall = setInterval(() => {
-      this.bird.jump();
-      this.bird.draw();
-    }, 10);
+    // this.fall = setInterval(() => {
+    this.bird.jump();
+    this.bird.draw();
+    // }, 10);
+  };
+
+  checkCollision = (pipes, bird) => {
+    let left = bird.x;
+    let right = bird.x + bird.width;
+    let top = bird.y;
+    let bottom = bird.y + bird.height;
+
+    for (var i = 0; i < pipes.length; i++) {
+      if (
+        left < pipes[i].x + pipes[i].width &&
+        right > pipes[i].x &&
+        top < pipes[i].y + pipes[i].height &&
+        bottom > pipes[i].y
+      ) {
+        console.log("Game Over Bro..");
+        console.log(this.pipes[i], this.bird);
+        console.log(left, pipes[i].x + pipes[i].width, right, pipes[i].x);
+        console.log(top, pipes[i].y + pipes[i].height, bottom, pipes[i].y);
+        return true;
+      }
+    }
+    return false;
   };
 }
 
