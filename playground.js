@@ -4,11 +4,13 @@ class Playground {
     this.width = width;
     this.height = height;
     this.score = 0;
+    this.highscore = 0;
     this.gap = 150;
     this.pipes = [];
     this.timeSpanToGeneratePipe = 0;
     this.interval;
-    this.fall;
+    this.gameOver = false;
+    this.gameOverScreen = null;
   }
 
   init = () => {
@@ -56,6 +58,10 @@ class Playground {
       }
       this.dropBird();
       this.add();
+      if (this.gameOver) {
+        //if game over then clear interval of pipe generation.
+        clearInterval(this.interval);
+      }
       this.timeSpanToGeneratePipe++;
     }, 20);
   };
@@ -64,16 +70,14 @@ class Playground {
     this.movePipe();
     let checkCollision = this.checkCollision(this.pipes, this.bird);
     if (checkCollision) {
-      clearInterval(this.interval);
-      // clearInterval(this.fall);
+      this.gameOver = true; //if checkCollision is true then gameOver variable is set to true;
+      this.createGameOverScreen();
     }
   };
 
   dropBird = () => {
-    // this.fall = setInterval(() => {
     this.bird.jump();
     this.bird.draw();
-    // }, 10);
   };
 
   checkCollision = (pipes, bird) => {
@@ -89,14 +93,29 @@ class Playground {
         top < pipes[i].y + pipes[i].height &&
         bottom > pipes[i].y
       ) {
-        console.log("Game Over Bro..");
-        console.log(this.pipes[i], this.bird);
-        console.log(left, pipes[i].x + pipes[i].width, right, pipes[i].x);
-        console.log(top, pipes[i].y + pipes[i].height, bottom, pipes[i].y);
         return true;
       }
     }
     return false;
+  };
+
+  createGameOverScreen = () => {
+    let parentScreen = document.createElement("div");
+    let text = document.createElement("div");
+    let highscore = document.createElement("div");
+    let currentScore = document.createElement("div");
+    parentScreen.classList.add("game-over");
+    text.classList.add("game-over__text");
+    currentScore.classList.add("game-over__score");
+    highscore.classList.add("game-over__score");
+    text.innerHTML = "GAME OVER!!";
+    highscore.innerHTML = "HighScore: " + this.highscore;
+    currentScore.innerHTML = "Score: " + this.score;
+    parentScreen.appendChild(text);
+    parentScreen.appendChild(currentScore);
+    parentScreen.appendChild(highscore);
+    this.gameOverScreen = parentScreen;
+    this.mainDiv.appendChild(parentScreen);
   };
 }
 

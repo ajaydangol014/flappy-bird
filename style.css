@@ -79,6 +79,36 @@
   animation: block 3s infinite linear;
 }
 
+.game-over {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  color: white;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-over__text {
+  text-align: center;
+  display: block;
+  font-size: 46px;
+  margin-bottom: 20px;
+}
+
+.game-over__score {
+  display: block;
+  font-size: 18px;
+  text-align: center;
+  margin: 16px;
+}
+
 @keyframes block {
   0% {
     left: 600px;
