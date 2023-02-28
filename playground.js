@@ -16,6 +16,7 @@ class Playground {
   init = () => {
     this.bird = this.createBird();
     this.start();
+    this.updateHighScore();
   };
 
   createBird = () => {
@@ -53,8 +54,10 @@ class Playground {
       if (pe.x + pe.width < birdposition && !pe.passed && i % 2) {
         this.score++;
         pe.passed = true;
+        document.querySelector(".score_number").innerHTML = this.score;
         if (this.score > this.highscore) {
           this.highscore = this.score;
+          localStorage.setItem(`highscore`, this.score);
         }
       }
     });
@@ -157,6 +160,19 @@ class Playground {
 
   newGame = () => {
     this.resetGame();
+  };
+  updateHighScore = () => {
+    const currHighScore = this.getHighScore();
+
+    if (currHighScore == null) {
+      this.highscore = 0;
+    } else {
+      this.highscore = localStorage.getItem(`highscore`);
+    }
+  };
+
+  getHighScore = () => {
+    return parseInt(localStorage.getItem(`highscore`));
   };
 }
 
