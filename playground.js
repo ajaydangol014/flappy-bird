@@ -47,6 +47,16 @@ class Playground {
   movePipe = () => {
     this.pipes.forEach((pe, i) => {
       pe.move(1);
+      let birdposition = this.bird.x + this.bird.width;
+
+      //score increase if pipe position with with is less than bird position and also if pipe passed values is false and i modular value is set to true;
+      if (pe.x + pe.width < birdposition && !pe.passed && i % 2) {
+        this.score++;
+        pe.passed = true;
+        if (this.score > this.highscore) {
+          this.highscore = this.score;
+        }
+      }
     });
   };
 
@@ -59,6 +69,10 @@ class Playground {
       this.dropBird();
       this.add();
       if (this.gameOver) {
+        if (this.score > this.highscore) {
+          this.highscore = this.score;
+          console.log(this.score, this.highscore);
+        }
         //bird fall when game is over
         this.dropInterval = setInterval(() => {
           this.bird.element.style.transform = "rotate(180deg)";
@@ -105,31 +119,31 @@ class Playground {
   };
 
   createGameOverScreen = () => {
+    console.log(this.highscore);
     let parentScreen = document.createElement("div");
     let text = document.createElement("div");
-    let highscore = document.createElement("div");
+    let highscoreElem = document.createElement("div");
     let currentScore = document.createElement("div");
     let resetBtn = document.querySelector(".reset");
     let newGameBtn = document.querySelector(".new-game");
     parentScreen.classList.add("game-over");
     text.classList.add("game-over__text");
     currentScore.classList.add("game-over__score");
-    highscore.classList.add("game-over__score");
+    highscoreElem.classList.add("game-over__score");
     text.innerHTML = "GAME OVER!!";
-    highscore.innerHTML = "HighScore: " + this.highscore;
+    highscoreElem.innerHTML = "HighScore: " + this.highscore;
     currentScore.innerHTML = "Score: " + this.score;
     parentScreen.appendChild(text);
     parentScreen.appendChild(currentScore);
-    parentScreen.appendChild(highscore);
+    parentScreen.appendChild(highscoreElem);
     resetBtn.onclick = this.resetGame.bind(this); // reset game
-    newGameBtn.onclick = this.newGame.bind(this); // reset game
+    newGameBtn.onclick = this.newGame.bind(this); // new game
     this.gameOverScreen = parentScreen;
     this.mainDiv.appendChild(parentScreen);
   };
 
   resetGame = () => {
     this.score = 0;
-    this.highscore = 0;
     this.gameOver = false;
     this.mainDiv.removeChild(this.gameOverScreen);
     this.pipes.forEach((pipe) => {

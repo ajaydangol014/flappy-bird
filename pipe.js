@@ -6,6 +6,7 @@ class Pipe {
     this.y = y;
     this.width = 65;
     this.height = height;
+    this.passed = false;
     // this.timerID;
   }
 
