@@ -12,11 +12,22 @@ class Playground {
     this.gameOver = false;
     this.gameOverScreen = null;
     this.paused = false;
+    this.sound;
+    this.dieSound;
+    this.pointSound;
+    this.hitSound;
   }
 
   init = () => {
     this.bird = this.createBird();
     this.updateHighScore();
+    this.pointSound = new Sound(this.mainDiv, "./audio/sfx_point.wav");
+    this.pointSound.init();
+    this.hitSound = new Sound(this.mainDiv, "./audio/sfx_hit.wav");
+    this.hitSound.init();
+    this.background = new Sound(this.mainDiv, "./audio/background_.mp3");
+    this.background.init();
+    this.background.play();
     this.start();
   };
 
@@ -54,6 +65,7 @@ class Playground {
       //score increase if pipe position with with is less than bird position and also if pipe passed values is false and i modular value is set to true;
       if (pe.x + pe.width < birdposition && !pe.passed && i % 2) {
         this.score++;
+        this.pointSound.play();
         pe.passed = true;
         document.querySelector(".score_number").innerHTML = this.score;
         if (this.score > this.highscore) {
@@ -88,13 +100,13 @@ class Playground {
         });
       }
       this.timeSpanToGeneratePipe++;
-      if (this.paused) {
-        clearInterval(this.interval);
-        console.log(this.paused);
-      } else {
-        console.log(this.paused);
-        setInterval(this.interval);
-      }
+      // if (this.paused) {
+      //   clearInterval(this.interval);
+      //   console.log(this.paused);
+      // } else {
+      //   console.log(this.paused);
+      //   setInterval(this.interval);
+      // }
     }, 20);
   };
 
@@ -103,6 +115,7 @@ class Playground {
     let checkCollision = this.checkCollision(this.pipes, this.bird);
     if (checkCollision) {
       this.gameOver = true; //if checkCollision is true then gameOver variable is set to true;
+      this.hitSound.play();
       this.createGameOverScreen();
     }
   };
