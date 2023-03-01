@@ -11,12 +11,13 @@ class Playground {
     this.interval;
     this.gameOver = false;
     this.gameOverScreen = null;
+    this.paused = false;
   }
 
   init = () => {
     this.bird = this.createBird();
-    this.start();
     this.updateHighScore();
+    this.start();
   };
 
   createBird = () => {
@@ -64,6 +65,9 @@ class Playground {
   };
 
   start = () => {
+    let pauseBtn = document.querySelector(".btn-pause");
+    pauseBtn.onclick = this.pausePlay.bind(this);
+
     this.interval = setInterval(() => {
       if (!(this.timeSpanToGeneratePipe % 160)) {
         this.createPipe();
@@ -74,7 +78,6 @@ class Playground {
       if (this.gameOver) {
         if (this.score > this.highscore) {
           this.highscore = this.score;
-          console.log(this.score, this.highscore);
         }
         //bird fall when game is over
         this.dropInterval = setInterval(() => {
@@ -85,6 +88,13 @@ class Playground {
         });
       }
       this.timeSpanToGeneratePipe++;
+      if (this.paused) {
+        clearInterval(this.interval);
+        console.log(this.paused);
+      } else {
+        console.log(this.paused);
+        setInterval(this.interval);
+      }
     }, 20);
   };
 
@@ -122,13 +132,12 @@ class Playground {
   };
 
   createGameOverScreen = () => {
-    console.log(this.highscore);
     let parentScreen = document.createElement("div");
     let text = document.createElement("div");
     let highscoreElem = document.createElement("div");
     let currentScore = document.createElement("div");
     let resetBtn = document.querySelector(".reset");
-    let newGameBtn = document.querySelector(".new-game");
+
     parentScreen.classList.add("game-over");
     text.classList.add("game-over__text");
     currentScore.classList.add("game-over__score");
@@ -140,7 +149,6 @@ class Playground {
     parentScreen.appendChild(currentScore);
     parentScreen.appendChild(highscoreElem);
     resetBtn.onclick = this.resetGame.bind(this); // reset game
-    newGameBtn.onclick = this.newGame.bind(this); // new game
     this.gameOverScreen = parentScreen;
     this.mainDiv.appendChild(parentScreen);
   };
@@ -152,15 +160,13 @@ class Playground {
     this.pipes.forEach((pipe) => {
       pipe.element.remove();
     });
+    document.querySelector(".score_number").innerHTML = 0;
     this.pipes = [];
     this.bird.reset();
     clearInterval(this.dropInterval);
     this.start();
   };
 
-  newGame = () => {
-    this.resetGame();
-  };
   updateHighScore = () => {
     const currHighScore = this.getHighScore();
 
@@ -173,6 +179,16 @@ class Playground {
 
   getHighScore = () => {
     return parseInt(localStorage.getItem(`highscore`));
+  };
+
+  pausePlay = () => {
+    if (this.paused) {
+      document.querySelector(".btn-pause").innerHTML = "Play";
+      this.paused = false;
+    } else {
+      document.querySelector(".btn-pause").innerHTML = "Pause";
+      this.paused = true;
+    }
   };
 }
 
