@@ -7,7 +7,6 @@ class Pipe {
     this.width = 65;
     this.height = height;
     this.passed = false;
-    // this.timerID;
   }
 
   init = () => {

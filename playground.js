@@ -27,8 +27,7 @@ class Playground {
     this.hitSound.init();
     this.background = new Sound(this.mainDiv, "./audio/background_.mp3");
     this.background.init();
-    this.background.play();
-    this.start();
+    document.querySelector(".btn-start").onclick = this.start.bind(this);
   };
 
   createBird = () => {
@@ -80,11 +79,17 @@ class Playground {
     let pauseBtn = document.querySelector(".btn-pause");
     pauseBtn.onclick = this.pausePlay.bind(this);
 
+    if (this.gameOver) {
+      if (this.gameOverScreen) {
+        this.resetGame();
+      }
+    }
     this.interval = setInterval(() => {
       if (!(this.timeSpanToGeneratePipe % 160)) {
         this.createPipe();
         this.timeSpanToGeneratePipe = 1;
       }
+      this.background.play();
       this.dropBird();
       this.add();
       if (this.gameOver) {
@@ -116,6 +121,7 @@ class Playground {
     if (checkCollision) {
       this.gameOver = true; //if checkCollision is true then gameOver variable is set to true;
       this.hitSound.play();
+      this.background.pause();
       this.createGameOverScreen();
     }
   };
@@ -177,7 +183,8 @@ class Playground {
     this.pipes = [];
     this.bird.reset();
     clearInterval(this.dropInterval);
-    this.start();
+    this.dropBird();
+    // this.start();
   };
 
   updateHighScore = () => {
