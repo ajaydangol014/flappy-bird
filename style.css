@@ -31,6 +31,10 @@
   margin-right: 12px;
 }
 
+.btn:hover {
+  cursor: pointer;
+}
+
 .score {
   color: black;
 }

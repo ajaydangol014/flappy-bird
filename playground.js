@@ -28,6 +28,8 @@ class Playground {
     this.background = new Sound(this.mainDiv, "./audio/background_.mp3");
     this.background.init();
     document.querySelector(".btn-start").onclick = this.start.bind(this);
+    let pauseBtn = document.querySelector(".btn-pause");
+    pauseBtn.onclick = this.pausePlay.bind(this);
   };
 
   createBird = () => {
@@ -76,9 +78,6 @@ class Playground {
   };
 
   start = () => {
-    let pauseBtn = document.querySelector(".btn-pause");
-    pauseBtn.onclick = this.pausePlay.bind(this);
-
     if (this.gameOver) {
       if (this.gameOverScreen) {
         this.resetGame();
@@ -105,13 +104,6 @@ class Playground {
         });
       }
       this.timeSpanToGeneratePipe++;
-      // if (this.paused) {
-      //   clearInterval(this.interval);
-      //   console.log(this.paused);
-      // } else {
-      //   console.log(this.paused);
-      //   setInterval(this.interval);
-      // }
     }, 20);
   };
 
@@ -155,21 +147,27 @@ class Playground {
     let text = document.createElement("div");
     let highscoreElem = document.createElement("div");
     let currentScore = document.createElement("div");
-    let resetBtn = document.querySelector(".reset");
+    let reset = document.createElement("a");
 
     parentScreen.classList.add("game-over");
     text.classList.add("game-over__text");
     currentScore.classList.add("game-over__score");
     highscoreElem.classList.add("game-over__score");
+    reset.classList.add("btn");
+    reset.setAttribute("id", "btn-reset");
+    reset.innerHTML = "Reset";
     text.innerHTML = "GAME OVER!!";
     highscoreElem.innerHTML = "HighScore: " + this.highscore;
     currentScore.innerHTML = "Score: " + this.score;
     parentScreen.appendChild(text);
     parentScreen.appendChild(currentScore);
     parentScreen.appendChild(highscoreElem);
-    resetBtn.onclick = this.resetGame.bind(this); // reset game
+    parentScreen.appendChild(reset);
     this.gameOverScreen = parentScreen;
     this.mainDiv.appendChild(parentScreen);
+
+    let resetBtn = document.getElementById("btn-reset");
+    resetBtn.onclick = this.resetGame.bind(this); // reset game
   };
 
   resetGame = () => {
@@ -205,9 +203,11 @@ class Playground {
     if (this.paused) {
       document.querySelector(".btn-pause").innerHTML = "Play";
       this.paused = false;
+      clearInterval(this.interval);
     } else {
       document.querySelector(".btn-pause").innerHTML = "Pause";
       this.paused = true;
+      this.start();
     }
   };
 }
