@@ -19,6 +19,7 @@ class Playground {
   }
 
   init = () => {
+    this.createStartScreen();
     this.bird = this.createBird();
     this.updateHighScore();
     this.pointSound = new Sound(this.mainDiv, "./audio/sfx_point.wav");
@@ -30,6 +31,44 @@ class Playground {
     document.querySelector(".btn-start").onclick = this.start.bind(this);
     let pauseBtn = document.querySelector(".btn-pause");
     pauseBtn.onclick = this.pausePlay.bind(this);
+  };
+
+  createStartScreen = () => {
+    //create interaction element and add button element into it
+    let interaction = document.createElement("div");
+    interaction.classList.add("interaction");
+    let btnGroup = document.createElement("div");
+    btnGroup.classList.add("btn-group");
+    let btnStart = document.createElement("a");
+    btnStart.classList.add("btn");
+    btnStart.classList.add("btn-start");
+    btnStart.innerHTML = "Start";
+    let btnPause = document.createElement("a");
+    btnPause.classList.add("btn");
+    btnPause.classList.add("btn-pause");
+    btnPause.innerHTML = "Pause";
+    btnGroup.appendChild(btnStart);
+    btnGroup.appendChild(btnPause);
+
+    let score = document.createElement("div");
+    score.classList.add("score");
+    score.innerHTML = "Score: ";
+    let scoreNum = document.createElement("span");
+    scoreNum.classList.add("score_number");
+    scoreNum.innerHTML = 0;
+    score.appendChild(scoreNum);
+
+    interaction.appendChild(btnGroup);
+    interaction.appendChild(score);
+
+    //Playground screen creation
+    let startScreen = document.createElement("div");
+    startScreen.classList.add("playground");
+    this.mainDiv = startScreen;
+
+    let body = document.querySelector(".main-body");
+    body.appendChild(interaction);
+    body.appendChild(startScreen);
   };
 
   createBird = () => {
