@@ -169,6 +169,9 @@ class Playground {
     let bottom = bird.y + bird.height;
 
     for (var i = 0; i < pipes.length; i++) {
+      if (bottom === this.height) {
+        return true;
+      }
       if (
         left < pipes[i].x + pipes[i].width &&
         right > pipes[i].x &&
