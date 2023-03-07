@@ -224,7 +224,6 @@ class Playground {
     this.bird.reset();
     clearInterval(this.dropInterval);
     this.dropBird();
-    // this.start();
   };
 
   updateHighScore = () => {

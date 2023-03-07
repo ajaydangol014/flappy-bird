@@ -32,7 +32,11 @@ class Bird {
 
   btnHandle = (e) => {
     if (e.code === "Space") {
-      this.y = this.y - this.pushUp;
+      if (this.y + this.height === this.playground) {
+        return;
+      } else {
+        this.y = this.y - this.pushUp;
+      }
     }
   };
 
