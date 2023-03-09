@@ -68,9 +68,15 @@ class Playground {
     startScreen.classList.add("playground");
     this.mainDiv = startScreen;
 
+    let helpText = document.createElement("div");
+    helpText.classList.add("help-text");
+    helpText.innerHTML = `NOTE: Press Start button to start the game and Press "Space" Key to jump.`;
+    helpText.style.width = this.width + "px";
+
     let body = document.querySelector(".main-body");
     body.appendChild(interaction);
     body.appendChild(startScreen);
+    body.appendChild(helpText);
   };
 
   createBird = () => {
