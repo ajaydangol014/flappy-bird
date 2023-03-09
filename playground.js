@@ -16,6 +16,7 @@ class Playground {
     this.dieSound;
     this.pointSound;
     this.hitSound;
+    this.pausePlay = this.pausePlay.bind(this);
   }
 
   init = () => {
@@ -30,7 +31,7 @@ class Playground {
     this.background.init();
     document.querySelector(".btn-start").onclick = this.start.bind(this);
     let pauseBtn = document.querySelector(".btn-pause");
-    pauseBtn.onclick = this.pausePlay.bind(this);
+    pauseBtn.onclick = this.pausePlay;
   };
 
   createStartScreen = () => {
@@ -49,6 +50,7 @@ class Playground {
     btnPause.innerHTML = "Pause";
     btnGroup.appendChild(btnStart);
     btnGroup.appendChild(btnPause);
+    btnPause.style.display = "none";
 
     let score = document.createElement("div");
     score.classList.add("score");
@@ -117,6 +119,7 @@ class Playground {
   };
 
   start = () => {
+    document.querySelector(".btn-pause").style.display = "block";
     if (this.gameOver) {
       if (this.gameOverScreen) {
         this.resetGame();
@@ -153,6 +156,7 @@ class Playground {
       this.gameOver = true; //if checkCollision is true then gameOver variable is set to true;
       this.hitSound.play();
       this.background.pause();
+      document.querySelector(".btn-pause").style.display = "none";
       this.createGameOverScreen();
     }
   };
@@ -242,13 +246,15 @@ class Playground {
 
   pausePlay = () => {
     if (this.paused) {
-      document.querySelector(".btn-pause").innerHTML = "Play";
-      this.paused = false;
-      clearInterval(this.interval);
-    } else {
       document.querySelector(".btn-pause").innerHTML = "Pause";
-      this.paused = true;
+      this.paused = false;
       this.start();
+      this.background.play();
+    } else {
+      document.querySelector(".btn-pause").innerHTML = "Play";
+      this.paused = true;
+      this.background.pause();
+      clearInterval(this.interval);
     }
   };
 }

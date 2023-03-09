@@ -5,7 +5,7 @@ class Bird {
     this.height = 24;
     this.x = x / 2 - this.width / 2;
     this.y = y / 2;
-    this.gravity = 2;
+    this.gravity = 3;
     this.mainElement = mainElement;
     this.playground = 600;
     this.pushUp = 40;
