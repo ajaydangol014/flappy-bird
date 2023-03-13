@@ -179,7 +179,7 @@ class Playground {
     let bottom = bird.y + bird.height;
 
     for (var i = 0; i < pipes.length; i++) {
-      if (bottom === this.height) {
+      if (bottom >= this.height || bottom < 0) {
         return true;
       }
       if (
