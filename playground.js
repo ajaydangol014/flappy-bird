@@ -126,6 +126,8 @@ class Playground {
 
   start = () => {
     document.querySelector(".btn-pause").style.display = "block";
+    document.querySelector(".btn-start").style.display = "none";
+
     if (this.gameOver) {
       if (this.gameOverScreen) {
         this.resetGame();
@@ -163,6 +165,7 @@ class Playground {
       this.hitSound.play();
       this.background.pause();
       document.querySelector(".btn-pause").style.display = "none";
+      document.querySelector(".btn-start").style.display = "block";
       this.createGameOverScreen();
     }
   };
