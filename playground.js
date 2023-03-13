@@ -166,6 +166,7 @@ class Playground {
       this.background.pause();
       document.querySelector(".btn-pause").style.display = "none";
       document.querySelector(".btn-start").style.display = "block";
+      document.querySelector(".btn-start").classList.add("btn-disabled");
       this.createGameOverScreen();
     }
   };
@@ -237,6 +238,7 @@ class Playground {
     this.bird.reset();
     clearInterval(this.dropInterval);
     this.dropBird();
+    document.querySelector(".btn-start").classList.remove("btn-disabled");
   };
 
   updateHighScore = () => {

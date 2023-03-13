@@ -30,6 +30,11 @@
   margin-right: 12px;
 }
 
+.btn-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
 .btn:hover {
   cursor: pointer;
 }
